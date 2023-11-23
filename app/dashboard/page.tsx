@@ -4,10 +4,9 @@ import { lusitana } from '../ui/fonts';
 import RevenueChart from '../ui/dashboard/revenue-chart';
 import LatestInvoices from '../ui/dashboard/latest-invoices';
 import { Card } from '../ui/dashboard/cards';
-import { RevenueChartSkeleton } from '../ui/skeletons';
+import { LatestInvoicesSkeleton, RevenueChartSkeleton } from '../ui/skeletons';
 
 export default async function DashboardPage() {
-  const latestInvoices = await fetchLatestInvoices();
   const {
     numberOfInvoices,
     numberOfCustomers,
@@ -31,10 +30,16 @@ export default async function DashboardPage() {
         />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<RevenueChartSkeleton />}>
+        <Suspense
+          fallback={
+            <>
+              <RevenueChartSkeleton /> <LatestInvoicesSkeleton />
+            </>
+          }
+        >
           <RevenueChart />
+          <LatestInvoices />
         </Suspense>
-        <LatestInvoices latestInvoices={latestInvoices} />
       </div>
     </main>
   );
